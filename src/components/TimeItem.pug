@@ -1,0 +1,71 @@
+script.
+  import { slide } from 'svelte/transition'
+  import {_status, events} from './store'
+  import _ from 'lodash'
+
+  export let id = "firebase-id"
+  export let time = "no-time"
+  export let date = "no-date"
+  export let room = "no-room"
+  export let owner = "no-owner"
+  export let phone = "no-phone"
+  export let status = "no-status"
+  export let org = "Thinc."
+  export let desc = "1st meet น้องปี 1"
+
+  export let loading = false
+  export let hide = true;
+  $: bclass = {
+    "waiting": "is-warning",
+    "rejected": "is-danger",
+    "approved": "is-success",
+  }[status]
+
+  $: isExist = !!_.find($events, {id})
+
+  function select(e) {
+    const stat = e.target.value
+    loading = true
+    events.status(id, stat)
+      .catch(e => alert(e.message))
+      .finally(() => loading = false)
+  }
+
+
+//- {#if isExist}
+{#if true}
+  .message(class={bclass} transition:slide='{{y: -15}}')
+    .message-header.pointer(on:click={() => hide=!hide})
+      .has-text-left {time}
+      .has-text-right {org}
+    {#if !hide}
+      .message-body(transition:slide='{{y: -15}}')
+        .content
+          p {desc}
+          p {owner} #[br] {phone}
+          .control
+            .select(class={bclass} class:loading)
+              select(on:change={select} value={status})
+                {#each _status as _stat}
+                  option(value={_stat}) {_stat}
+                option(value="delete") delete
+
+style.
+  .hide {
+    display: none;
+  }
+  .message {
+    box-shadow: 0 0 6px 1px #63626245;
+  }
+  .pointer {
+    cursor: pointer;
+  }
+
+  .message {
+    margin-bottom: 1.5rem;
+  }
+
+  .select::after {
+    border-top-color: transparent !important;
+    border-right-color: transparent !important;
+  }

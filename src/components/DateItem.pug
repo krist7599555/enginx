@@ -1,0 +1,121 @@
+script.
+  import TimeItem from './TimeItem.pug'
+  import { quintOut } from 'svelte/easing';
+  import FormReserve from './FormReserve.pug'
+  import {slide, fly, fade} from 'svelte/transition'
+  import {flip} from 'svelte/animate'
+  import {events} from './store.js'
+  import _ from 'lodash'
+  import { crossfade } from 'svelte/transition';
+  import Icon from './Fa.svelte'
+  import {faClipboard} from '@fortawesome/free-regular-svg-icons'
+
+  export let date = "no-date";
+  $: todayEvents = _.filter($events, e => e.date == date) || []
+
+
+  let org = "Thinc."
+  let desc = "1st meet"
+  let owner = "Krist Pornpairin"
+  let phone = "0900206430"
+  let time = "16:00-19:00"
+  let loading = false;
+
+  let showForm = false;
+  async function submit() {
+    if (!showForm) {
+      showForm = true
+    } else {
+      loading = true
+      await events.push({
+        time,
+        date,
+        room: "nginx",
+        owner,
+        phone,
+        status: "waiting",
+        org,
+        desc
+      })
+      loading = false
+      showForm = false
+    }
+  }
+
+.overlay(class:active={showForm} on:click={() => showForm = false})
+.card(class:active={showForm})
+
+  .card-header
+    .card-header-title {date}
+
+  // CARD CONTENT
+  form.card-content(on:submit|preventDefault={submit})
+
+    // FORM
+    {#if showForm}
+      div(transition:slide)
+        FormReserve(bind:org bind:desc bind:time bind:owner bind:phone)
+        br
+
+    // BTN
+    button(type='submit' class:loading).button.is-info.is-fullwidth.box-shadow
+      b + Reserve Now !
+
+    // LIST
+    {#if !showForm}
+      div(transition:slide)
+        hr
+        {#if todayEvents.length == 0}
+          .has-text-centered
+            br
+            br
+            Icon(icon={faClipboard} size='2x')
+            br
+            p(style='margin-top: 1rem') No Reservation Today
+        {:else}
+          {#each todayEvents as event (event.id)}
+            div(animate:flip)
+              TimeItem({...event})
+        br
+
+style.
+  .card {
+    max-width: 320px;
+    min-width: 300px;
+    min-height: 400px;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    &.active {
+      z-index: 15;
+    }
+  }
+  .card-content {
+    background-color: #dbdbdb66;
+    min-height: 520px;
+  }
+  .box-shadow {
+    box-shadow: 0 0 6px 1px #63626245;
+  }
+  hr {
+    background-color: #717171;
+    border: none;
+    display: block;
+    height: 1px;
+    margin: 1.5rem 6rem;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: #17171b00;
+    pointer-events: none;
+    transition: all 300ms ease;
+    z-index: 0;
+    &.active {
+      z-index: 10;
+      background-color: #17171b87;
+      pointer-events: auto;
+    }
+  }

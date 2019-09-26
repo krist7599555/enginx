@@ -1,0 +1,54 @@
+script.
+  import { Router, Link, Route } from "svelte-routing"
+  import Post from './Post.pug'
+  let open = false;
+  function toggle() {
+    open = !open
+  }
+
+.hero.is-fullheight
+  .hero-head
+    nav.navbar
+      .navbar-brand
+        a.navbar-item(href='/') RELOAD
+        .navbar-burger.burger(on:click={toggle})
+          span
+          span
+          span
+      .navbar-menu(class:active={open} style='display: none')
+        .navbar-end
+          a.navbar-item(href='/') !
+          a.navbar-item(href='/') !d
+          a.navbar-item(href='/') !dd
+  .hero-body
+    div(style='margin: auto')
+      slot
+  //- .hero-foot
+    nav.tabs.is-boxed.is-fullwidth
+      .container
+        ul
+          li.is-active: a(href='/') Overview
+          li: a(href='/') Modifiers
+          li: a(href='/') Grid
+          li: a(href='/') Modifiers
+          li: a(href='/') Grid
+          li: a(href='/') Modifiers
+          li: a(href='/') Grid
+          li: a(href='/') Modifiers
+          li: a(href='/') Grid
+
+
+style.
+  .hero
+    background-image: url(img/wallpaper-1.jpg)
+    background-blend-mode: overlay
+    background-color: #313333
+
+  .navbar-menu
+    position: absolute
+    width: 100%
+
+  .hero-body
+    padding: 0 0
+
+

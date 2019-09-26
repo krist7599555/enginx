@@ -1,0 +1,27 @@
+script.
+  export let org;
+  export let desc;
+  export let time;
+  export let owner;
+  export let phone;
+
+.field
+  .label Organization
+  .control
+    input.input(bind:value={org} type='text' placeholder='organization' required)
+.field
+  .label Description
+  .control
+    textarea.textarea(bind:value={desc} type='text' placeholder='description' required)
+.field
+  .label Time
+  .control
+    input.input(bind:value={time} type='text' placeholder='16:00-19:00' required)
+.field
+  .label Name
+  .control
+    input.input(bind:value={owner} type='text' placeholder='Mr. Krist Pornpairin' required)
+.field
+  .label Phone
+  .control
+    input.input(bind:value={phone} type='tel' placeholder='0900206430' required)
