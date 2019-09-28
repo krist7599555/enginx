@@ -1,0 +1,25 @@
+.hero.is-success
+  .hero-body
+    .subtitle
+      .button(on:click='{() => show = !show}') Toggle
+    .container
+      | {#if show}
+      | {#each items as item}
+      | {#if item % 3 == 0}
+      div item {item}
+      | {/if}
+      | {/each}
+      | {:else}
+      | {#each items as item}
+      | {#if item % 2 == 0}
+      div item {item}
+      | {/if}
+      | {/each}
+      | {/if}
+      div()
+
+
+script.
+  import _ from "lodash"
+  let show = true
+  let items = _.range(13, 30)

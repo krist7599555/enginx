@@ -1,5 +1,5 @@
 script.
-  import { slide } from 'svelte/transition'
+  import { slide,  scale} from 'svelte/transition'
   import {_status, events} from './store'
   import _ from 'lodash'
 
@@ -34,7 +34,7 @@ script.
 
 //- {#if isExist}
 {#if true}
-  .message(class={bclass} transition:slide='{{y: -15}}')
+  .message(class={bclass} transition:scale='{{y: -15}}')
     .message-header.pointer(on:click={() => hide=!hide})
       .has-text-left {time}
       .has-text-right {org}

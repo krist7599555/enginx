@@ -27,8 +27,11 @@
     "bulma": "^0.7.5",
     "dayjs": "^1.8.16",
     "firebase": "^7.0.0",
+    "i": "^0.3.6",
+    "npm": "^6.11.3",
     "rollup-plugin-pug": "^1.1.1",
     "sirv-cli": "^0.4.4",
+    "string.prototype.matchall": "^3.0.1",
     "svelte-fa": "^2.1.0"
   },
   "scripts": {

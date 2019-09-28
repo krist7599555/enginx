@@ -3,7 +3,9 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+// const pug2svelte = require('./pug2svelte.js')
 import pug2svelte from 'pug2svelte'
+import kristpug from "./kristpug.js"
 import sass from 'sass';
 import path from 'path';
 import fs from 'fs'
@@ -28,15 +30,20 @@ export default {
       preprocess: {
         markup: ({ content, filename }) => {
           if (path.extname(filename) == ".pug") {
-            let html = pug2svelte(content, { pug: true, pretty: true })
+            // content = kristpug(content)
+            // let html = pug2svelte(content, { pug: true, pretty: true })
+            const html = kristpug(content, { pug: true, pretty: true })
             content = html
-            .replace(/=&gt;/g, "=>")
-            .replace(/&quot;/g, '"')
+            // .replace(/=&gt;/g, "=>")
+            // .replace(/&quot;/g, '"')
             // console.log(html)
           }
           return { code: content }
         },
         style: ({ content, filename }) => {
+          // if (!content) {
+          //   return { code: content }
+          // }
           const isScss = /;/.test(content)
           const { css, map, stats } = sass.renderSync({
             data: content,

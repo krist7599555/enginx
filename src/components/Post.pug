@@ -12,17 +12,21 @@ ul(style='min-height: 150px')
 script.
   let ls = ["first item"]
   let value = "324"
-  //- $: {console.log(value)}
+  $: {console.log(value)}
   function add() {
     ls.push(value);
     ls = ls
     value = ""
   }
 
-style(lang='scss').
-  .content
-    > h1
-      font-size: 5rem
-    > p
-      font-size: 0.5rem
+
+
+style.
+  .content > h1 {
+    font-size: 5rem;
+  }
+  .content > p {
+    font-size: 0.5rem;
+  }
+
 

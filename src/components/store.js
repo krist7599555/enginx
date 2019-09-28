@@ -25,7 +25,10 @@ function createEventsStore() {
   database.ref('events').on('value', snp => {
     const newval = _.map(snp.val(), (val, id) => ({...val, id}))
     console.log("TCL: createEventsStore -> newval", newval)
-    set(newval)
+    const old = get({subscribe});
+    setTimeout(() => {
+      set(newval)
+    }, old && newval.length > old.length ? 1000 : 0);
   })
   async function push(obj) {
     if (_validate(obj)) {
